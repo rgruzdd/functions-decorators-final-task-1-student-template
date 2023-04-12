@@ -1,32 +1,21 @@
-from typing import List
-
 def split(data: str, sep=None, maxsplit=-1):
-    res = []
-    new_data = data
-    if sep is not None:
-        new_data = data.replace(sep, ':')
-    else:
+    if sep == None:
         sep = ' '
+    res = []
     num_of_splits = 0
-    new_word = ''
-    for i in new_data:
-        if i != ':':
-            new_word += i
-        else:
-            if maxsplit == -1:
-                if new_word != '':
-                    res.append(new_word)
-                new_word = ''
-            elif num_of_splits < maxsplit:
-                if new_word != '':
-                    res.append(new_word)
-                new_word = ''
+    while data != '':
+        if data.find(sep) != -1 and ( num_of_splits < maxsplit or maxsplit == -1 ):
+            new_word = data[0:data.find(sep)]
+            if new_word == '':
+                data = data.replace(sep, '', 1)
+                res.append(new_word)
                 num_of_splits += 1
-            else:
-                new_word += i
-
-    if new_word is not None:
-        res.append(new_word)
+                continue
+            res.append(new_word)
+            data = data.replace(data[0:data.find(sep)]+sep, '', 1)
+            num_of_splits += 1
+        else:
+            res.append(data)
+            break
     return res
-
 
